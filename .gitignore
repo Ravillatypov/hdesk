@@ -4,3 +4,4 @@ __pycache__
 *.db
 *.py[cod]
 .vscode
+db.sqlite3
