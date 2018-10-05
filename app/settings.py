@@ -6,7 +6,7 @@ SECRET_KEY =  os.environ.get('DJ_SECRET', 'wn!2ld$u31f+htcq+v^6zj0sq0o%0khib2)&1
 
 DEBUG =  os.environ.get('DJ_DEBUG', True)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 INSTALLED_APPS = [

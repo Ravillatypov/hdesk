@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}
+{{art.title|default:"Нет запрощенной статьи"}}
+{% endblock %}
+{% block content %}
+{% if art %}
+{{ art.text }}
+{% else %}
+<p>нет данной статьи</p>
+{% endif %}
+{% endblock %}

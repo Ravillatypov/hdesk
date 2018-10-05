@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}
+Статьи с меткой {{tag.title}}
+{% endblock %}
+{% block content %}
+{% if arts %}
+    {% for art in arts %}
+        <a href="/?pk={{ art.id }}">{{ art.title }}</a>
+    {% endfor %}
+{% else %}
+<p>нет статьей с меткой {{tag.title}}</p>
+{% endif %}
+{% endblock %}
