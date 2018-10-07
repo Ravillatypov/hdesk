@@ -1,12 +1,13 @@
 from django.contrib import admin
 from django.urls import path, include
-from article.views import mainView
+from django.shortcuts import redirect
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('summernote/', include('django_summernote.urls')),
-    path('api/', include('article.urls')),
-    path('', mainView),
+    path('kb/', include('article.urls')),
+    path('', include('article.urls')),
 ]
 
 

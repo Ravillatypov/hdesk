@@ -1,11 +1,35 @@
 {% extends 'base.html' %}
 {% block title %}
-    {{art.title|default:"Нет запрощенной статьи"}}
+{{art.title|default:"Нет запрощенной статьи"}}
 {% endblock %}
 {% block content %}
-    {% if art %}
-        <div class="container">{{art.post|safe }}</div>
-    {% else %}
-        <p>нет данной статьи</p>
-    {% endif %}
+{% if art %}
+<div class="container">{{art.post|safe }}</div>
+<hr>
+<div class="container">
+    <div class="row">
+        <div class="col"><p class="text-secondary h6"><small class="text-muted">Автор: {{art.author.first_name}} {{art.author.last_name}}</small></p></div>
+        <div class="col"><p class="text-secondary h6"><small class="text-muted">Последнее изменение этой страницы: {{art.updated_at}}</small></p></div>
+    </div>
+    <div class="row">
+        {% for tag in arttags %}
+        <span class="badge badge-secondary badge-pill mr-2">{{tag.title}}</span>
+        {% endfor %}
+    </div>
+</div>
+<hr>
+<div class="container" id="articlecomments">
+    {% for comment in comments %}
+    <div class="row shadow-lg p-3 mb-5 bg-white rounded">
+        <div class="col-lg-2 col-xl-2 col-md-3 col-sm-4">{{comment.author.first_name}} {{comment.author.last_name}}<br>
+            {{comment.created_at}}
+        </div>
+        <div class="col-lg-10 col-xl-10 col-md-9 col-sm-8">{{comment.comment|safe}}</div>
+    </div>
+    {% endfor %}
+</div>
+{% include 'comment-form.html' %}
+{% else %}
+<p>нет данной статьи</p>
+{% endif %}
 {% endblock %}
