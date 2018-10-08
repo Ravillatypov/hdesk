@@ -21,14 +21,16 @@
 <div class="container" id="articlecomments">
     {% for comment in comments %}
     <div class="row shadow-lg p-3 mb-5 bg-white rounded">
-        <div class="col-lg-2 col-xl-2 col-md-3 col-sm-4">{{comment.author.first_name}} {{comment.author.last_name}}<br>
+        <div class="col-lg-2 col-xl-2 col-md-4 col-sm-4">{{comment.author.first_name}} {{comment.author.last_name}}<br>
             {{comment.created_at}}
         </div>
-        <div class="col-lg-10 col-xl-10 col-md-9 col-sm-8">{{comment.comment|safe}}</div>
+        <div class="col-lg-8 col-xl-8 col-md-12 col-sm-12">{{comment.comment|safe}}</div>
     </div>
     {% endfor %}
 </div>
+{% if user.is_authenticated %}
 {% include 'comment-form.html' %}
+{% endif %}
 {% else %}
 <p>нет данной статьи</p>
 {% endif %}

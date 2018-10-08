@@ -52,8 +52,12 @@ def mainView(request, pk=None):
         menu.append(category)
     
     if pk is not None:
-        arts = Article.objects.get(pk=pk)
-        art_comments = Comment.objects.filter(article=arts)
+        try:
+            arts = Article.objects.get(pk=pk)
+            art_comments = Comment.objects.filter(article=arts)
+        except Exception:
+            arts = None
+            art_comments = None
         return render(request, 'article.html', {'tags': tags, 
         'categories': categories, 'art': arts, 'menu': menu, 
         'comments': art_comments, 'arttags': art.tag.all()})

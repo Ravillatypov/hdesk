@@ -110,6 +110,8 @@ SUMMERNOTE_CONFIG = {
     'summernote': {
         'airMode': False,
         'width': '100%',
+        "lang": "ru-RU",
+        "language": "/static/js/summernote-ru-RU.js",
     },
     'attachment_require_authentication': False,
     'disable_attachment': False,
