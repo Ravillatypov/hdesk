@@ -5,7 +5,8 @@
 {% block content %}
 {% if art %}
 <div class="container">
-    <h1 style="text-align: center; ">{{art.title}}</h1><hr>
+    <h1 style="text-align: center; ">{{art.title}}  <a href="{% url 'edit' art.pk %}"><i class="oi oi-pencil"></i></a></h1>
+    <hr>
     {{art.post|safe }}
 </div>
 <hr>

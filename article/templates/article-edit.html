@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% block title %}
+{{art.title|default:"Новая статья"}}
+{% endblock %}
+{% block content %}
+{% if user.is_authenticated %}
+<link href="/static/css/bootstrap-select.min.css" rel="stylesheet">
+<script src="/static/js/bootstrap-select.min.js"></script>
+<script src="/static/js/defaults-ru_RU.min.js"></script>
+<div class="container">
+    <form action="{% url 'edit' pk %}" method="POST">
+        {% csrf_token %}
+        <div>
+            <label class="required" for="id_title">Название статьи:</label>
+            <input type="text" name="title" class="vTextField" maxlength="170" required="" id="id_title" value="{{art.title}}">
+        </div>
+        <div>
+            <label class="required" for="id_post">Текст статьи:</label>
+            <textarea name="post" cols="40" rows="10" required="" id="id_post" hidden="true" style="display: none;">
+                    {{art.post}}</textarea>
+            <script>
+                var settings_id_post = {
+                    "airMode": false,
+                    "width": "100%",
+                    "lang": "ru-RU",
+                    "height": 480,
+                    "toolbar": [
+                        ["style", ["style"]],
+                        ["font", ["bold", "italic", "underline", "superscript", "subscript", "strikethrough",
+                            "clear"
+                        ]],
+                        ["fontname", ["fontname"]],
+                        ["fontsize", ["fontsize"]],
+                        ["color", ["color"]],
+                        ["para", ["ul", "ol", "paragraph"]],
+                        ["height", ["height"]],
+                        ["table", ["table"]],
+                        ["insert", ["link", "picture", "video", "hr"]],
+                        ["view", ["fullscreen", "codeview"]],
+                        ["help", ["help"]]
+                    ],
+                    "url": {
+                        "language": "/static/js/summernote-ru-RU.js",
+                        "upload_attachment": "/summernote/upload_attachment/"
+                    }
+                };
+            </script>
+            <iframe id="id_post_iframe" src="/summernote/editor/id_post/" frameborder="0" required="" width="100%"
+                height="480" style="height: 480px;"></iframe>
+        </div>
+        <div>
+            <label class="required" for="id_category">Раздел:</label>
+            <select class="selectpicker" name="category" required="" id="id_category">
+                {% for category in categories %}
+                <option value="{{category.pk}}" 
+                {% if category is art.category %}
+                    selected
+                {% endif %}
+                >{{category.title}}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label for="id_tag">Метки:</label>
+            <select class="selectpicker" name="tag" id="id_tag" multiple="">
+                    {% for tag in tags %}
+                    <option value="{{tag.pk}}" 
+                    {% if tag in arttags %}
+                        selected
+                    {% endif %}
+                    >{{tag.title}}
+                    </option>
+                    {% endfor %}
+            </select>
+        </div>
+        <input type="submit" value="Сохранить" class="default" name="_save">
+    </form>
+</div>
+<script>$('.selectpicker').selectpicker();</script>
+{% else %}
+<h1 class="alert">Для добавления и редактирования статей необходимо авторизоваться</h1>
+{% endif %}
+{% endblock %}
