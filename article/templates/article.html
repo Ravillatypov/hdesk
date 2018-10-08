@@ -4,7 +4,10 @@
 {% endblock %}
 {% block content %}
 {% if art %}
-<div class="container">{{art.post|safe }}</div>
+<div class="container">
+    <h1 style="text-align: center; ">{{art.title}}</h1><hr>
+    {{art.post|safe }}
+</div>
 <hr>
 <div class="container">
     <div class="row">
@@ -32,6 +35,6 @@
 {% include 'comment-form.html' %}
 {% endif %}
 {% else %}
-<p>нет данной статьи</p>
+<h6 class="alert">Нет запрощенной статьи</h6>
 {% endif %}
 {% endblock %}

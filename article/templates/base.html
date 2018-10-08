@@ -46,28 +46,26 @@
                         <i class="fas fa-align-left"></i>
                         <span>Меню</span>
                     </button>
-                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"
-                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                        aria-label="Toggle navigation">
-                        <i class="fas fa-align-justify"></i>
-                    </button>
 
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="nav navbar-nav ml-auto">
-                            {% if user.is_authenticated %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="/admin/">админка</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/admin/logout/">выйти</a>
-                            </li>
-                            {% else %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="/admin/login/?next=/">войти</a>
-                            </li>
-                            {% endif %}
-                        </ul>
-                    </div>
+                    <div class="dropdown">
+                            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="authdropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              
+                        {% if user.is_authenticated %}
+                        <span>{{user.first_name}} {{user.last_name}}</span>
+                        {% else %}
+                        <span>Авторизация</span>
+                        {% endif %}
+                            </a>
+                          
+                            <div class="dropdown-menu" aria-labelledby="authdropdown">
+                                    {% if user.is_authenticated %}
+                                        <a class="dropdown-item" href="/admin/">админка</a>
+                                        <a class="dropdown-item" href="/admin/logout/">выйти</a>
+                                    {% else %}
+                                        <a class="dropdown-item" href="/admin/login/?next=/">войти</a>
+                                    {% endif %}
+                            </div>
+                          </div>
                 </div>
             </nav>
             {% block content %} {% endblock %}
