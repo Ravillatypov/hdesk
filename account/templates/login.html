@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}
+Авторизация
+{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="row justify-content-md-center">
+    <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
+      <div class="container">
+        <form method="POST" action="{% url 'login' %}">
+          {% csrf_token %}
+          <input type="hidden" name="next" value="{{next|default:'/'}}">
+          <div class="form-group row d-flex justify-content-center">
+            <label class="col-sm-3 col-form-label" for="loginfield">Логин: </label>
+            <input type="text" class="col-sm-6 form-control" name="username" id="loginfield" placeholder="Введите логин">
+          </div>
+          <div class="form-group row d-flex justify-content-center">
+            <label class="col-sm-3 col-form-label" for="password">Пароль:</label>
+            <input type="password" class="col-sm-6 form-control" name="password" id="password" placeholder="Пароль">
+          </div>
+          <div class="form-group row d-flex justify-content-center">
+            <button type="submit" class="btn btn-primary">Войти</button>
+          </div>
+        </form>
+        {% if error %}
+        <div class="alert alert-warning d-flex justify-content-center" role="alert">
+          Авторизация не пройдена, не правильный логин или пароль!
+        </div>
+        {% endif %}
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

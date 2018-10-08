@@ -1,12 +1,14 @@
 from django.contrib import admin
 from django.urls import path, include
 from django.shortcuts import redirect
-
+from account.views import loginPage, logoutPage
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('summernote/', include('django_summernote.urls')),
     path('kb/', include('article.urls')),
+    path('login/', loginPage, name='login'),
+    path('logout/', logoutPage, name='logout'),
     path('', include('article.urls')),
 ]
 
