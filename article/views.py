@@ -1,5 +1,6 @@
 from article.models import Tag, Comment, Category, Article
 from django.shortcuts import render, redirect
+from datetime import datetime
 
 def mainView(request, pk=None):
     context = getBaseContext()
@@ -7,10 +8,12 @@ def mainView(request, pk=None):
         try:
             arts = Article.objects.get(pk=pk)
             art_comments = Comment.objects.filter(article=arts)
+            art_tags = arts.tag.all()
         except Exception:
             arts = None
             art_comments = None
-        context.update({'art': arts, 'comments': art_comments, 'arttags': arts.tag.all()})
+            art_tags = None
+        context.update({'art': arts, 'comments': art_comments, 'arttags': art_tags})
         return render(request, 'article.html', context)
     return render(request, 'index.html', context)
 
@@ -26,7 +29,7 @@ def addComment(request, pk=None):
 def ArticleEdit(request, pk=0):
     context = getBaseContext()
     if pk == 0:
-        title = request.user.last_name + ': новая статья'
+        title = 'статья от ' + datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         art = Article.objects.create(author=request.user, title=title)
     else:
         art = Article.objects.get(pk=pk)
