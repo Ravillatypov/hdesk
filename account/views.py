@@ -3,11 +3,12 @@ from account.models import Account
 from django.contrib.auth import authenticate, login, logout
 
 def loginPage(request):
-    error = False
+    error = ''
     if request.method == 'GET':
-        nextPage = request.POST.get('next')
+        nextPage = request.GET.get('next')
         if nextPage is None:
-            nextPage = '/'
+            nextPage = '/' 
+        return render(request, 'login.html', {'next': nextPage})
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -19,8 +20,8 @@ def loginPage(request):
             login(request, user)
             return redirect(nextPage)
         else:
-            error = True
-    return render(request, 'login.html', {'next': nextPage, 'error': error})
+            error = 'Авторизация не пройдена. Не правильный логин или пароль.'
+    return render(request, 'error.html', {'error': error})
 
 
 def logoutPage(request):

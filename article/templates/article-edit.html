@@ -11,8 +11,8 @@
     <form action="{% url 'edit' pk %}" method="POST">
         {% csrf_token %}
         <div>
-            <label class="required" for="id_title">Название статьи:</label>
-            <input type="text" name="title" class="vTextField" maxlength="170" required="" id="id_title" value="{{art.title}}">
+            <label class="required" for="id_article_title">Название статьи:</label>
+            <input type="text" name="title" class="vTextField" maxlength="170" required="" id="id_article_title" value="{{art.title}}">
         </div>
         <div>
             <label class="required" for="id_post">Текст статьи:</label>
@@ -74,7 +74,7 @@
                     {% endfor %}
             </select>
         </div>
-        <input type="submit" value="Сохранить" class="default" name="_save">
+        <input type="submit" value="Сохранить" class="btn btn-outline-success btn-sm" name="_save">
     </form>
 </div>
 <script>$('.selectpicker').selectpicker();</script>

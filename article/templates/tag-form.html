@@ -1,0 +1,34 @@
+{% if tagform %}
+<div class="modal fade" id="addTagModal" tabindex="-1" role="dialog" aria-labelledby="addTagModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addTagModalLabel">Добавить новую метку</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{% url 'tag_form' %}">
+                    {% csrf_token %}
+                    <div class="form-group row d-flex justify-content-center">
+                        <label class="col-sm-3 col-form-label" for="{{ tagform.title.id_fro_label }}">Метка: </label>
+                        {{ tagform.title }}
+                    </div>
+                    <div class="form-group row d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary">Добавить</button>
+                    </div>
+                </form>
+                {% if tagform.title.errors %}
+                <div class="alert alert-warning d-flex justify-content-center" role="alert">
+                    {{tagform.title.errors}}
+                </div>
+                {% endif %}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}

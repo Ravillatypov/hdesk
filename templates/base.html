@@ -16,30 +16,37 @@
 </head>
 
 <body>
-
     <div class="wrapper">
         <nav id="sidebar">
             <div class="sidebar-header">
                 <h3>{{appname|default:"HDesk"}}</h3>
             </div>
-
             {% if user.is_authenticated %}
             <ul class="list-unstyled components">
+                {% if perms.article.add_tag or perms.article.add_category or perms.article.add_article %}
                 <li>
                     <a href="#addbuttons" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><span
                             class="oi oi-plus">добавить</span></a>
                     <ul class="collapse list-unstyled" id="addbuttons">
+                        {% if perms.article.add_article %}
                         <li>
-                            <a href="{% url 'edit' 0 %}"><span class="oi oi-file">статью</span></a>
+                            <a href="{% url 'new_article' %}"><span class="oi oi-file"></span>статью</a>
                         </li>
+                        {% endif %}
+                        {% if perms.article.add_category %}
                         <li>
-                            <a href="{% url 'edit' 0 %}"><span class="oi oi-folder">раздел</span></a>
+                            <a data-toggle="modal" data-target="#addCategoryModal"><span class="oi oi-folder"></span>раздел</a>
                         </li>
+                        {% endif %}
+                        {% if perms.article.add_tag %}
                         <li>
-                            <a href="{% url 'edit' 0 %}"><span class="oi oi-tags">метку</span></a>
+                            <a data-toggle="modal" data-target="#addTagModal"><span class="oi oi-tags"></span>метку
+                            </a>
                         </li>
+                        {% endif %}
                     </ul>
                 </li>
+                {% endif %}
                 {% for submenu in menu %}
                 <li>
                     <a href="#artcategory{{submenu.id}}" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">{{submenu.title}}</a>
@@ -65,25 +72,24 @@
                         <span>Меню</span>
                     </button>
 
+                    {% if user.is_authenticated %}
                     <div class="dropdown">
                         <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="authdropdown"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-
-                            {% if user.is_authenticated %}
                             <span>{{user.first_name}} {{user.last_name}}</span>
-                            {% else %}
-                            <span>Авторизация</span>
-                            {% endif %}
                         </a>
-
                         <div class="dropdown-menu" aria-labelledby="authdropdown">
-                            {% if user.is_authenticated %}
                             <a class="dropdown-item" href="{% url 'logout' %}">выйти</a>
-                            {% else %}
-                            <a class="dropdown-item" href="{% url 'login' %}">войти</a>
-                            {% endif %}
                         </div>
                     </div>
+                    {% else %}
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link btn btn-btn btn-outline-success btn-sm" data-toggle="modal" data-target="#loginModal">войти
+                            </a>
+                        </li>
+                    </ul>
+                    {% endif %}
                 </div>
             </nav>
             <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -94,6 +100,9 @@
                 crossorigin="anonymous"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
             {% block content %} {% endblock %}
+            {% include 'tag-form.html' %}
+            {% include 'category-form.html' %}
+            {% include 'login-form.html' %}
         </div>
     </div>
 

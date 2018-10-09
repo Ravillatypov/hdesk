@@ -6,4 +6,4 @@ __pycache__
 .vscode
 db.sqlite3
 media/
-app/settings.prod.py
+app/settings*prod.py

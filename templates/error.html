@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}
+Ошибка
+{% endblock %}
+{% block content %}
+
+<div class="alert alert-warning d-flex justify-content-center" role="alert">
+        {{error|default:"Что-то пошло не так..."}}
+</div>
+{% endblock %}

@@ -5,12 +5,12 @@ class Category(models.Model):
     '''
     Класс категорий статей
     '''
-    title = models.CharField('Название', max_length=50)
+    title = models.CharField('Название', max_length=50, unique=True)
 
     class Meta:
         ordering = ('title',)
-        verbose_name = 'Категория'
-        verbose_name_plural = 'Категории'
+        verbose_name = 'Раздел'
+        verbose_name_plural = 'Разделы'
 
     def __str__(self):
         return self.title
@@ -20,12 +20,12 @@ class Tag(models.Model):
     '''
     Класс тегов статей
     '''
-    title = models.CharField('Тег', max_length=50)
+    title = models.CharField('Тег', max_length=50, unique=True)
 
     class Meta:
         ordering = ('title',)
-        verbose_name = 'Тег'
-        verbose_name_plural = 'Теги'
+        verbose_name = 'Метка'
+        verbose_name_plural = 'Метки'
     
     def __str__(self):
         return self.title
