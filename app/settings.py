@@ -116,3 +116,5 @@ SUMMERNOTE_CONFIG = {
     'attachment_require_authentication': False,
     'disable_attachment': False,
 }
+import django_heroku
+django_heroku.settings(locals())
