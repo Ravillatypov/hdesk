@@ -1,0 +1,23 @@
+[Unit]
+Description=HDesk web application
+Documentation=
+StartLimitIntervalSec=11
+
+[Service]
+Type=simple
+Environment=DJANGO_SETTINGS_MODULE=app.settings.prod
+ExecStart=/home/hdesk/.pyenv/shims/gunicorn --chdir /home/hdesk/hdesk app.wsgi:application
+Restart=always
+RestartSec=2
+StartLimitBurst=5
+User=hdesk
+Group=hdesk
+
+ExecStop=/bin/kill -s TERM $MAINPID
+
+WorkingDirectory=/home/hdesk/hdesk
+ReadWriteDirectories=/home/hdesk/hdesk
+
+[Install]
+WantedBy=multi-user.target
+Alias=hdesk.service
