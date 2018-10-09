@@ -23,7 +23,7 @@ Web приложение для документирования IT инфрас
 * добавьте суперпользователя: `./manage.py createsuperuser`
 # Отзывы и предложения
 ## Если нашли ошибку:
-* Ошибки безопасности отправить мне на [почту](mailto://latypov@iqvision.pro)
+* По ошибкам безопасности напишите мне на [почту](mailto://latypov@iqvision.pro)
 * По другим ошибка можете создать задачу по [ссылке](https://github.com/Ravillatypov/hdesk/issues/new)
 
-Отзывы и предложени отправьте на [почту](mailto://latypov@iqvision.pro)
+[почта](mailto://latypov@iqvision.pro) для отзывыв и предложений
