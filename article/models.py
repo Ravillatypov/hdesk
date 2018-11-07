@@ -1,10 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django_summernote.models import Attachment
 
 class Category(models.Model):
     '''
     Класс категорий статей
     '''
+    parent = models.ForeignKey("Category", on_delete=models.CASCADE, null=True, blank=True)
     title = models.CharField('Название', max_length=50, unique=True)
 
     class Meta:
@@ -38,10 +40,11 @@ class Article(models.Model):
     created = models.DateTimeField('Дата создания', 'created_at', False, True, editable=False)
     updated = models.DateTimeField('Дата изменения', 'updated_at', True, editable=False)
     author = models.ForeignKey(User, on_delete=models.PROTECT, verbose_name='Автор', editable=False)
-    title = models.CharField(max_length=170, verbose_name='Название статьи', unique=True)
+    title = models.CharField(max_length=170, verbose_name='Название статьи')
     text = models.TextField('Текст статьи', 'post')
     category = models.ForeignKey(Category, verbose_name="Категория", on_delete=models.SET_NULL, null=True)
     tag = models.ManyToManyField(Tag, verbose_name='Теги', blank=True)
+    files = models.ManyToManyField(Attachment, verbose_name='прикрепленные файлы', blank=True)
 
     class Meta:
         ordering = ('title',)
