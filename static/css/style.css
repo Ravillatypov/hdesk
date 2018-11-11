@@ -3,6 +3,7 @@
 */
 
 @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+
 body {
     font-family: 'Poppins', sans-serif;
     background: #fafafa;
@@ -24,162 +25,228 @@ a:focus {
     transition: all 0.3s;
 }
 
-.navbar {
-    padding: 15px 10px;
-    background: #fff;
-    border: none;
-    border-radius: 0;
-    margin-bottom: 40px;
-    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.navbar-btn {
-    box-shadow: none;
-    outline: none !important;
-    border: none;
-}
-
-.line {
-    width: 100%;
-    height: 1px;
-    border-bottom: 1px dashed #ddd;
-    margin: 40px 0;
-}
-
-/* ---------------------------------------------------
-    SIDEBAR STYLE
------------------------------------------------------ */
-
-.wrapper {
+.head-navbar {
+    background-color: #e3f2fd;
+    position: sticky;
     display: flex;
-    width: 100%;
+    top: 0;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
 
-#sidebar {
-    width: 250px;
+.header-nav-list {
+    list-style-type: none;
+    list-style-position: inside;
+    margin: 0px;
+    padding: 0px;
+}
+
+.sidebar-menu {
+    width: 300px;
     position: fixed;
-    top: 0;
+    top: 40px;
     left: 0;
-    height: 100vh;
+    height: calc(100vh - 40px);
     z-index: 999;
     background: #7386D5;
     color: #fff;
     transition: all 0.3s;
+    overflow: auto;
+    margin-left: -100vw;
 }
 
-#sidebar.active {
-    margin-left: -250px;
+.sidebar-menu-active {
+    margin-left: 0px;
 }
 
-#sidebar .sidebar-header {
-    padding: 20px;
-    background: #6d7fcc;
-}
-
-#sidebar ul.components {
-    padding: 20px 0;
-    border-bottom: 1px solid #47748b;
-}
-
-#sidebar ul p {
-    color: #fff;
-    padding: 10px;
-}
-
-#sidebar ul li a {
-    padding: 10px;
-    font-size: 1.1em;
-    display: block;
-}
-
-#sidebar ul li a:hover {
-    color: #7386D5;
-    background: #fff;
-}
-
-#sidebar ul li.active>a,
-a[aria-expanded="true"] {
-    color: #fff;
-    background: #6d7fcc;
-}
-
-a[data-toggle="collapse"] {
-    position: relative;
-}
-
-.dropdown-toggle::after {
-    display: block;
+.close-button {
     position: absolute;
-    top: 50%;
-    right: 20px;
-    transform: translateY(-50%);
+    top: 3px;
+    right: 3px;
 }
 
-ul ul a {
-    font-size: 0.9em !important;
-    padding-left: 30px !important;
-    background: #6d7fcc;
+.header-nav-list>li {
+    display: inline-block;
 }
 
-ul.CTAs {
-    padding: 20px;
+.header-link,
+.logout-link,
+.login-link {
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+
 }
 
-ul.CTAs a {
+a>i.icono-hamburger,
+a>i.icono-list,
+a>i.icono-cross {
+    color: #000000;
+}
+
+.button-active {
+    background-color: rgba(0, 128, 0, 0.5);
+}
+
+.button {
+    display: inline-block;
+    font: inherit;
     text-align: center;
-    font-size: 0.9em !important;
+    vertical-align: middle;
+    text-transform: uppercase;
+    border-width: 1px;
+    border-radius: 3px;
+    border-style: solid;
+    border-color: rgba(255, 255, 255, 0);
+}
+
+.button:hover,
+.button:focus,
+.button:active,
+.show-navbar-menu:active,
+.show-navbar-menu:focus,
+.show-navbar-menu:hover {
+    background-color: rgba(64, 64, 64, 0.5);
+    border-color: #175e46;
+}
+
+.button.disabled,
+.button:disabled {
+    cursor: default;
+    opacity: 0.5;
+    background-color: #000000;
+}
+
+
+@media (max-width: 400px) {
+    .sidebar-menu {
+        width: 100vw;
+    }
+}
+
+
+@keyframes bounce {
+    0% {
+        transform: translateY(-2000px);
+    }
+
+    70% {
+        transform: translateY(30px);
+    }
+
+    90% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    10%,
+    30%,
+    50%,
+    70%,
+    90% {
+        transform: translateX(-10px);
+    }
+
+    20%,
+    40%,
+    60%,
+    80% {
+        transform: translateX(10px);
+    }
+}
+
+.modal {
+    position: fixed;
+
+    display: none;
+
+    color: #000000;
+
+    background-color: #f8f3f0;
+    background-image: url("img/pattern-light.jpg");
+    background-position: 0 0;
+    background-repeat: repeat;
+    box-shadow: 0 30px 50px rgba(0, 0, 0, 0.7);
+}
+
+.modal-show {
     display: block;
-    border-radius: 5px;
-    margin-bottom: 5px;
+
+    animation: bounce 0.6s;
 }
 
-a.download {
-    background: #fff;
-    color: #7386D5;
+.modal-error {
+    animation: shake 0.6s;
 }
 
-a.article,
-a.article:hover {
-    background: #6d7fcc !important;
-    color: #fff !important;
+.modal-login {
+    top: 120px;
+    left: 50%;
+
+    width: 300px;
+    margin-left: -230px;
+    padding: 50px 80px;
 }
 
-/* ---------------------------------------------------
-    CONTENT STYLE
------------------------------------------------------ */
-
-#content {
-    width: calc(100% - 250px);
-    padding: 40px;
-    min-height: 100vh;
-    transition: all 0.3s;
+.modal-close {
     position: absolute;
     top: 0;
-    right: 0;
+    right: -34px;
+
+    width: 22px;
+    height: 22px;
+
+    font-size: 0;
+
+    background-color: transparent;
+    border: 0;
+
+    cursor: pointer;
 }
 
-#content.active {
-    width: 100%;
+.modal-close::before,
+.modal-close::after {
+    content: "";
+
+    position: absolute;
+    top: 10px;
+    left: 2px;
+
+    width: 19px;
+    height: 3px;
+
+    background-color: #d0d0d0;
 }
 
-/* ---------------------------------------------------
-    MEDIAQUERIES
------------------------------------------------------ */
+.modal-close::before {
+    transform: rotate(45deg);
+}
 
-@media (max-width: 768px) {
-    #sidebar {
-        margin-left: -250px;
-    }
-    #sidebar.active {
-        margin-left: 0;
-    }
-    #content {
-        width: 100%;
-    }
-    #content.active {
-        width: calc(100% - 250px);
-    }
-    #sidebarCollapse span {
-        display: none;
-    }
+.modal-close::after {
+    transform: rotate(-45deg);
+}
+
+.modal-login h2 {
+    margin: 0;
+    margin-bottom: 20px;
+
+    font-size: 30px;
+    line-height: 42px;
+}
+
+.modal-description {
+    margin: 0;
+    margin-bottom: 10px;
 }

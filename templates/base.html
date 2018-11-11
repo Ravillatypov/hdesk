@@ -6,54 +6,43 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>{% block title %} {% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/static/css/style.css" rel="stylesheet">
-    <link href="/static/css/jquery.mCustomScrollbar.min.css" rel="stylesheet">
-    <link href="/static/css/open-iconic-bootstrap.min.css" rel="stylesheet">
     <link href="/static/img/icon.jpg" rel="icon" type="image/jpg">
-    <script defer src="/static/js/solid.js"></script>
-    <script defer src="/static/js/fontawesome.js"></script>
+    <link rel="stylesheet" href="https://icono-49d6.kxcdn.com/icono.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
 </head>
 
 <body>
-    <div class="wrapper">
-        <nav id="sidebar">
-            <div class="sidebar-header">
-                <h3>{{appname|default:"HDesk"}}</h3>
-            </div>
+    <header>
+        <h1>Добро пожаловать в систему техподдержки!</h1>
+    </header>
+    <nav class="head-navbar">
+        <ul class="header-nav-list">
+            <li><a class="header-link button" id="link-articles" href="#">база знаний</a></li>
+            <li><a class="header-link button" id="link-tikets" href="#">заявки</a></li>
+        </ul>
+        {% if user.is_authenticated %}
+        <a class="logout-link button" href="{% url 'logout' %}">выйти</a>
+        {% else %}
+        <a class="login-link button" href="{% url 'login' %}">войти</a>
+        {% endif %}
+        <div class="sidebar-menu menu-article">
+            <i class="icono-cross close-button"></i>
             {% if user.is_authenticated %}
-            <ul class="list-unstyled components">
+            <ul>
                 {% if perms.article.add_tag or perms.article.add_category or perms.article.add_article %}
                 <li>
-                    <a href="#addbuttons" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><span
-                            class="oi oi-plus">добавить</span></a>
-                    <ul class="collapse list-unstyled" id="addbuttons">
-                        {% if perms.article.add_article %}
-                        <li>
-                            <a href="{% url 'new_article' %}"><span class="oi oi-file"></span>статью</a>
-                        </li>
-                        {% endif %}
-                        {% if perms.article.add_category %}
-                        <li>
-                            <a data-toggle="modal" data-target="#addCategoryModal"><span class="oi oi-folder"></span>раздел</a>
-                        </li>
-                        {% endif %}
-                        {% if perms.article.add_tag %}
-                        <li>
-                            <a data-toggle="modal" data-target="#addTagModal"><span class="oi oi-tags"></span>метку
-                            </a>
-                        </li>
-                        {% endif %}
-                    </ul>
+                    <a href="{% url 'new_article' %}">добавить статью</a>
                 </li>
                 {% endif %}
                 {% for submenu in menu %}
                 <li>
-                    <a href="#artcategory{{submenu.id}}" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">{{submenu.title}}</a>
-                    <ul class="collapse list-unstyled" id="artcategory{{submenu.id}}">
+                    <h2 class="menu-title">{{submenu.title}}</h2>
+                    <ul class="menu-list">
                         {% for item in submenu.items %}
                         <li>
-                            <a href="{% url 'kb' item.id %}">{{item.title}}</a>
+                            <a class="menu-list-item" href="{% url 'kb' item.id %}">{{item.title}}</a>
                         </li>
                         {% endfor %}
                     </ul>
@@ -61,64 +50,14 @@
                 {% endfor %}
             </ul>
             {% endif %}
-        </nav>
-        <div id="content">
-
-            <nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background-color: #e3f2fd;">
-                <div class="container-fluid">
-
-                    <button type="button" id="sidebarCollapse" class="btn btn-info">
-                        <i class="fas fa-align-left"></i>
-                        <span>Меню</span>
-                    </button>
-
-                    {% if user.is_authenticated %}
-                    <div class="dropdown">
-                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="authdropdown"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span>{{user.first_name}} {{user.last_name}}</span>
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="authdropdown">
-                            <a class="dropdown-item" href="{% url 'logout' %}">выйти</a>
-                        </div>
-                    </div>
-                    {% else %}
-                    <ul class="nav navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a class="nav-link btn btn-btn btn-outline-success btn-sm" data-toggle="modal" data-target="#loginModal">войти
-                            </a>
-                        </li>
-                    </ul>
-                    {% endif %}
-                </div>
-            </nav>
-            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-                crossorigin="anonymous"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-                crossorigin="anonymous"></script>
-            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-                crossorigin="anonymous"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
-            {% block content %} {% endblock %}
-            {% include 'tag-form.html' %}
-            {% include 'category-form.html' %}
-            {% include 'login-form.html' %}
         </div>
-    </div>
+    </nav>
 
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $("#sidebar").mCustomScrollbar({
-                theme: "minimal"
-            });
-
-            $('#sidebarCollapse').on('click', function () {
-                $('#sidebar, #content').toggleClass('active');
-                $('.collapse.in').toggleClass('in');
-                $('a[aria-expanded=true]').attr('aria-expanded', 'false');
-            });
-        });
-    </script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    {% block content %} {% endblock %}
+    {% include 'login-form.html' %}
+    <script src="/static/js/main.js"></script>
 </body>
 
 </html>
