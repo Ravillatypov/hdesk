@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}
+Регистрация
+{% endblock %}
+{% block content %}
+<form class="container" action="{% url 'register' %}" method="POST">
+    {% csrf_token %}
+    <div class="form-inline">
+        <label for="registerloginfield">логин:</label>
+        <input type="text" name="login" value="{{login|default:''}}" id="registerloginfield" maxlength="100">
+    </div>
+    <div class="form-inline">
+        <label for="registerpasswordfield">пароль:</label>
+        <input type="password" id="registerpasswordfield" name="password">
+    </div>
+    <div class="form-inline">
+        <label for="registerfirstnamefield">имя:</label>
+        <input type="text" id="registerfirstnamefield" name="firstname" maxlength="100" value="{{first|default:''}}" >
+    </div>
+    <div class="form-inline">
+        <label for="registerlastnamefield">фамилия:</label>
+        <input type="text" id="registerlastnamefield" name="lastname" maxlength="100" value="{{last|default:''}}" >
+    </div>
+    <button type="submit" class="button center">регистрация</button>
+</form>
+{%if error %}
+<p class="error">Пользователь {{login|default:''}} уже существует, попробуйте другой логин</p>
+{% endif %}
+{% endblock %}

@@ -40,20 +40,25 @@ def addComment(request, pk=None):
 def editArticle(request, pk=0):
     context = getBaseContext()
     if pk == 0:
-        title = 'статья от ' + datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        art = Article.objects.create(author=request.user, title=title)
+        art = Article(author=request.user, title='новая статья')
+        art.pk = 0
     else:
         art = Article.objects.get(pk=pk)
+        tags = [t.title for t in art.tag.all()]
+        art.taglist = ','.join(tags)
     if request.method == 'GET':
         context.update({'pk': art.pk, 'art': art, 'arttags': art.tag.all()})
         return render(request, 'article-edit.html', context)
     if request.method == 'POST':
-        cat_id = request.POST.get('category')
-        category = Category.objects.get(pk=cat_id)
+        if pk == 0:
+            art = Article.objects.create(author=request.user, title='новая статья')
+        catname = request.POST.get('category')
+        category,_ = Category.objects.get_or_create(title=catname)
         art.tag.clear()
-        for tag_id in request.POST.getlist('tag'):
-            tag = Tag.objects.get(pk=tag_id)
-            art.tag.add(tag)
+        for tagname in request.POST.get('tag').split(','):
+            if len(tagname)>0:
+                tag,_ = Tag.objects.get_or_create(title=tagname)
+                art.tag.add(tag)
         art.author = request.user
         art.title = request.POST.get('title')
         art.post = request.POST.get('post')
@@ -75,7 +80,7 @@ def getBaseContext():
     tagform = TagForm(prefix='tag')
     catform = CategoryForm(prefix='cat')
     return {'tags': tags, 'categories': categories, 
-            'menu': menu, 'tagform': tagform, 'categoryform': catform}
+            'artmenu': menu}
 
 
 @permission_required('article.add_tag', login_url='/login')

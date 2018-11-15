@@ -4,38 +4,39 @@
 {% endblock %}
 {% block content %}
 {% if art %}
-<div class="container">
-    <h1 style="text-align: center; ">{{art.title}}  <a href="{% url 'edit' art.pk %}"><i class="oi oi-pencil"></i></a></h1>
-    <hr>
-    {{art.post|safe }}
-</div>
-<hr>
-<div class="container">
-    <div class="row">
-        <div class="col"><p class="text-secondary h6"><small class="text-muted">Автор: {{art.author.first_name}} {{art.author.last_name}}</small></p></div>
-        <div class="col"><p class="text-secondary h6"><small class="text-muted">Последнее изменение этой страницы: {{art.updated_at}}</small></p></div>
+<article>
+    <h2 style="text-align: center; ">{{art.title}} <a href="{% url 'edit' art.pk %}"><i class="icono-dropper"></i></a></h2>
+    <div class="article-head">
+        <a href="#">{{art.author.get_full_name}}</a>
+        {{art.updated_at}}
     </div>
-    <div class="row">
+    {{art.post|safe }}
+    <div class="tag-list"><i class="icono-tag"></i>
         {% for tag in arttags %}
-        <span class="badge badge-secondary badge-pill mr-2">{{tag.title}}</span>
+        <span class="tag">{{tag.title}}</span>
         {% endfor %}
     </div>
-</div>
-<hr>
-<div class="container" id="articlecomments">
-    {% for comment in comments %}
-    <div class="row shadow-lg p-3 mb-5 bg-white rounded">
-        <div class="col-lg-2 col-xl-2 col-md-4 col-sm-4">{{comment.author.first_name}} {{comment.author.last_name}}<br>
-            {{comment.created_at}}
-        </div>
-        <div class="col-lg-8 col-xl-8 col-md-12 col-sm-12">{{comment.comment|safe}}</div>
+</article>
+{% for comment in comments %}
+<article class="comment">
+    <div class="comment-head">
+        <a href="#">{{comment.author.get_full_name}}</a>
+        {{comment.created_at}}
     </div>
-    {% endfor %}
-</div>
+    <div class="comment-body">
+        <p>{{comment.comment|safe}}</p>
+    </div>
+</article>
+{% endfor %}
 {% if user.is_authenticated %}
-{% include 'comment-form.html' %}
+<form class="comment-form" action="{% url 'comment' art.id %}" method="POST">
+    {% csrf_token %}
+    <label for="id_comment" style="padding-right: 10px;">{{user.get_full_name}}</label>
+    <textarea class="comment-textaria" name="comment" required="" id="id_comment"></textarea>
+    <button class="button" type="submit center">Отправить</button>
+</form>
 {% endif %}
 {% else %}
-<h6 class="alert">Нет запрощенной статьи</h6>
+<h4>Нет запрощенной статьи</h4>
 {% endif %}
 {% endblock %}

@@ -4,22 +4,14 @@
 {% endblock %}
 {% block content %}
 {% if user.is_authenticated %}
-<link href="/static/css/bootstrap-select.min.css" rel="stylesheet">
-<script src="/static/js/bootstrap-select.min.js"></script>
-<script src="/static/js/defaults-ru_RU.min.js"></script>
 <div class="container">
     <form action="{% url 'edit' pk %}" method="POST">
         {% csrf_token %}
-        <div>
-            <label class="required" for="id_article_title">Название статьи:</label>
-            <input type="text" name="title" class="vTextField" maxlength="170" required="" id="id_article_title" value="{{art.title}}">
-        </div>
-        <div>
-            <label class="required" for="id_post">Текст статьи:</label>
-            <textarea name="post" cols="40" rows="10" required="" id="id_post" hidden="true" style="display: none;">
+        <input type="text" name="title" class="header-input h1" maxlength="170" required="" id="id_article_title" value="{{art.title}}">
+        <textarea name="post" cols="40" rows="10" required="" id="id_post" hidden="true" style="display: none;">
                     {{art.post}}</textarea>
-            <script>
-                var settings_id_post = {
+        <script>
+            var settings_id_post = {
                     "airMode": false,
                     "width": "100%",
                     "lang": "ru-RU",
@@ -36,8 +28,7 @@
                         ["height", ["height"]],
                         ["table", ["table"]],
                         ["insert", ["link", "picture", "video", "hr"]],
-                        ["view", ["fullscreen", "codeview"]],
-                        ["help", ["help"]]
+                        ["view", ["fullscreen", "codeview"]]
                     ],
                     "url": {
                         "language": "/static/js/summernote-ru-RU.js",
@@ -45,39 +36,99 @@
                     }
                 };
             </script>
-            <iframe id="id_post_iframe" src="/summernote/editor/id_post/" frameborder="0" required="" width="100%"
-                height="480" style="height: 480px;"></iframe>
-        </div>
-        <div>
+        <iframe id="id_post_iframe" src="/summernote/editor/id_post/" frameborder="0" required="" width="100%" height="480"
+            style="height: 480px;"></iframe>
+        <div class="selectpicker">
             <label class="required" for="id_category">Раздел:</label>
-            <select class="selectpicker" name="category" required="" id="id_category">
-                {% for category in categories %}
-                <option value="{{category.pk}}" 
-                {% if category is art.category %}
-                    selected
-                {% endif %}
-                >{{category.title}}
-                </option>
-                {% endfor %}
-            </select>
-        </div>
-        <div>
-            <label for="id_tag">Метки:</label>
-            <select class="selectpicker" name="tag" id="id_tag" multiple="">
-                    {% for tag in tags %}
-                    <option value="{{tag.pk}}" 
-                    {% if tag in arttags %}
-                        selected
-                    {% endif %}
-                    >{{tag.title}}
+            <div class="selectelement">
+                <select name="category" required="" id="id_category">
+                    {% for category in categories %}
+                    <option value="{{category.title}}" {% if category is art.category %} selected {% endif %}>{{category.title}}
                     </option>
                     {% endfor %}
-            </select>
+                </select>
+            </div>
+            <button id="addCategoryButton" class="button" style="margin-left: 30px;" type="button" data-id="addcategoryform"
+                data-cmd="modalbutton"><i class="icono-plus" style="color: black;"></i><span>добавить</span></button>
         </div>
-        <input type="submit" value="Сохранить" class="btn btn-outline-success btn-sm" name="_save">
+        <div class="selectpicker">
+            <label for="id_tag">Метки:</label>
+            <div class="selectelement">
+                <input type="text" name="tag" id="id_tag" placeholder="Ведите метки" value="{{art.taglist}}">
+            </div>
+            <button id="addTagButton" class="button" style="margin-left: 30px; visibility: hidden;" type="button"><i
+                    class="icono-plus" style="color: black;"></i><span>добавить</span></button>
+        </div>
+        <button type="submit" class="button center">Сохранить</button>
     </form>
 </div>
-<script>$('.selectpicker').selectpicker();</script>
+<section class="modal" id="addcategoryform">
+    <h2>добавить раздел</h2>
+    <a href="#" class="modal-close"><i class="icono-cross"></i></a>
+    <form method="POST" action="{% url 'category_form' %}">
+        {% csrf_token %}
+        <div class="form-inline">
+            <label class="form-label" for="{{ categoryform.title.id_fro_label }}">Наименование раздела:</label>
+            <input type="text" name="cat-title" maxlength="50" id="id_cat-title">
+        </div>
+        <button type="submit" class="button center">Добавить</button>
+    </form>
+</section>
+
+<script>
+    var category = document.getElementById('id_category');
+    var categoryselect = new Choices(category, {
+        maxItems: 1,
+        allowSearch: true,
+        editItems: true,
+        addItems: true,
+        allowDuplicates: false,
+        itemSelectText: 'выберите',
+        noResultsText: 'не найдено, попробуте добавить',
+    });
+    categoryselect.setValue(['{{art.category}}']);
+    var taglist = document.getElementById('id_tag');
+    const choicesTag = new Choices(taglist, {
+        editItems: true,
+        maxItems: 15,
+        allowSearch: true,
+        removeButton: false,
+        allowDuplicates: false,
+        noResultsText: 'не найдено, попробуте добавить',
+        addItemText: function (e) {
+            return 'нажмите ввод для добавления <b>"' + e + '"</b>'
+        },
+        searchFields: ['wer', 'werwer'],
+    });
+    var addCategoryButton = document.getElementById('addCategoryButton');
+    var categorymodal = document.getElementById('addcategoryform');
+    var categoryform = categorymodal.querySelector('form');
+    var shadaw = document.querySelector('.full-shadaw');
+    var newcategory = categoryform.querySelector('input[name="cat-title"]');
+
+    addCategoryButton.addEventListener('click', function () {
+        categorymodal.classList.add('modal-show');
+        shadaw.classList.add('full-shadaw-show');
+    });
+
+    categoryform.addEventListener('submit', function (evnt) {
+        evnt.preventDefault();
+        if (newcategory.value) {
+            categorymodal.classList.remove('modal-show');
+            shadaw.classList.remove('full-shadaw-show');
+            categoryselect._addChoice({
+                value: newcategory.value,
+                label: newcategory.value,
+                placeholder: false,
+                selected: true,
+                disabled: false
+            });
+            categoryselect.setValue([newcategory.value]);
+        } else {
+            categorymodal.classList.add('modal-error');
+        }
+    });
+</script>
 {% else %}
 <h1 class="alert">Для добавления и редактирования статей необходимо авторизоваться</h1>
 {% endif %}
