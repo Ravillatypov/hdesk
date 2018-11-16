@@ -67,9 +67,11 @@ label {
     float: right;
     padding: .375rem .75rem;
 }
+
 form.container {
     max-width: 400px;
 }
+
 @media (min-width: 576px) {
     .form-inline label {
         display: flex;
@@ -137,7 +139,11 @@ p {
     font-size: 1.1em;
     font-weight: 300;
     line-height: 1.7em;
-    color: #999;
+    color: rgb(0, 0, 0);
+}
+
+td {
+    padding-right: 10px;
 }
 
 a,
@@ -175,11 +181,11 @@ main {
 .sidebar-menu {
     width: max-content;
     max-width: 600px;
-    position: absolute;
+    position: fixed;
     display: none;
-    top: 27px;
+    top: 0;
     left: 0;
-    max-height: calc(100vh - 33px);
+    max-height: 100vh;
     z-index: 4;
     transition: all 0.3s;
     overflow: auto;
@@ -191,6 +197,7 @@ main {
     box-shadow: 0 30px 50px rgba(0, 0, 0, 0.7);
     margin-left: 0px;
     padding-right: 20px;
+    text-align: left;
 }
 
 .sidebar-menu-active {
@@ -199,9 +206,9 @@ main {
 }
 
 .close-button {
-    position: absolute;
+    position: sticky;
     top: 3px;
-    right: 5px;
+    float: right;
 }
 
 .header-nav-list>li {
@@ -214,12 +221,14 @@ main {
     margin-left: 0;
     margin-right: 0;
     text-transform: uppercase;
-    background-color: rgba(0, 0, 0, 0)!important;
+    background-color: rgba(0, 0, 0, 0) !important;
 }
 
 i.icono-hamburger,
 i.icono-list,
-i.icono-cross {
+i.icono-cross,
+i.icono-caretRightCircle,
+i.icono-caretDownCircle {
     color: #000000;
 }
 
@@ -240,6 +249,8 @@ i.icono-dropper {
     text-decoration: none;
     padding-right: 4px;
     padding-left: 4px;
+    padding-bottom: 0;
+    padding-top: 0;
     border-color: rgba(0, 183, 255, 0.767);
     background-color: rgba(0, 183, 255, 0.767);
     cursor: pointer;
@@ -252,24 +263,31 @@ i.icono-dropper {
     border-color: #175e46;
 }
 
-.menu,
-.menu-list {
+.menu {
     list-style-type: none;
 }
+
+.menu-list {
+    list-style-type: none;
+    display: none;
+}
+
 .center {
     display: flex;
     margin-left: auto;
     margin-right: auto;
 }
+
 .menu-list-item {
     text-decoration: none;
     font: inherit;
     text-align: center;
     vertical-align: middle;
 }
+
 .menu-list-item:hover,
 .menu-list-item:active,
-.menu-list-item:focus{
+.menu-list-item:focus {
     font-size: 120%;
     padding-left: auto;
     padding-right: auto;
@@ -278,6 +296,19 @@ i.icono-dropper {
 .menu-title {
     margin-block-start: 15px;
     margin-block-end: 8px;
+}
+
+li.menu-opened ul.menu-list {
+    display: block;
+}
+
+li .menu-title i.icono-caretDownCircle,
+li.menu-opened .menu-title i.icono-caretRightCircle {
+    display: none;
+}
+li.menu-opened .menu-title i.icono-caretDownCircle,
+li .menu-title i.icono-caretRightCircle {
+    display: inline-block;
 }
 .modal {
     position: fixed;
@@ -441,6 +472,7 @@ i.icono-dropper {
     margin-right: 1rem;
     margin-left: 1rem;
 }
+
 .selectpicker {
     margin-bottom: 20px;
     display: flex;
@@ -448,17 +480,21 @@ i.icono-dropper {
     align-items: center;
     flex-wrap: wrap;
 }
+
 .selectpicker label {
     padding-right: 30px;
     width: 70px;
 }
+
 .selectelement {
     width: 400px;
 }
+
 .artcle-head a,
 .comment-head a {
     margin-right: 10px;
 }
+
 @media (max-width: 400px) {
     .sidebar-menu {
         width: 0px;
@@ -466,22 +502,39 @@ i.icono-dropper {
     }
 
     .sidebar-menu-active {
-        width: calc(100vw - 35px);
-        right: 3px;
+        width: 100vw;
+        right: 0px;
+        top: 0px;
+        height: 100vh;
+        position: fixed;
     }
 
-    .header-link,
-    .logout-link,
-    .login-link {
+    .close-button {
+        position: fixed;
+        top: 5px;
+        right: 5px;
+    }
+
+    .header-link {
         padding-left: 10px;
         padding-right: 10px;
         text-transform: lowercase;
     }
 
     .modal {
-        padding-left: 40px;
-        padding-right: 40px;
-        left: 10px;
+        padding-left: 4px;
+        padding-right: 4px;
+        left: 0px;
+        width: 100vw;
+    }
+
+    .modal .container {
+        padding-left: 1px;
+        padding-right: 1px;
+    }
+
+    .form-inline input {
+        margin-right: 10px;
     }
 }
 
