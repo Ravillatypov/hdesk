@@ -4,7 +4,7 @@ var menuclosers = document.querySelectorAll('.close-button');
 var modalclosers = document.querySelectorAll('.modal-close');
 var shadaw = document.querySelector('.full-shadaw');
 var menutitles = document.querySelectorAll('.menu-title');
-
+var menulists = document.querySelectorAll('.menu-list');
 
 function hideAll() {
     let modals = document.querySelectorAll('.modal-show');
@@ -76,3 +76,8 @@ modalclosers.forEach(function (closer, i, nodes) {
         hideAll();
     });
 });
+menulists.forEach(function (item, i, node) {
+    if (item.childElementCount == 0) {
+        item.parentElement.style.display = 'none';
+    }
+})
