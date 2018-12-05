@@ -31,9 +31,6 @@
                         знаний</button>
                 </li>
                 <li>
-                    <button class="button header-link" id="link-tikets" type="menu" data-cmd="sidebarbutton">заявки</button>
-                </li>
-                <li>
                     <a class="button header-link" href="{% url 'logout' %}">выйти</a>
                 </li>
                 {% else %}
@@ -81,11 +78,11 @@
             <input type="hidden" name="next" value="{{next|default:'/'}}">
             <div class="form-inline">
                 <label for="loginfield1">Логин: </label>
-                <input type="text" name="username" id="loginfield1" placeholder="Введите логин">
+                <input type="text" name="username" id="loginfield1" placeholder="Введите логин" value="demo">
             </div>
             <div class="form-inline">
                 <label for="password1">Пароль:</label>
-                <input type="password" name="password" id="password1" placeholder="Пароль">
+                <input type="password" name="password" id="password1" placeholder="Пароль" value="passdemo">
             </div>
             <button type="submit" class="button center">Войти</button>
         </form>
