@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.shortcuts import redirect
 from account.views import loginPage, logoutPage, registerPage
+from app.utils import indexPage, getBaseContext
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -10,7 +11,7 @@ urlpatterns = [
     path('login/', loginPage, name='login'),
     path('logout/', logoutPage, name='logout'),
     path('register/', registerPage, name='register'),
-    path('', include('article.urls')),
+    path('', indexPage, name='index'),
 ]
 
 
