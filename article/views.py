@@ -3,10 +3,7 @@ from article.forms import TagForm, CategoryForm
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import permission_required
 from datetime import datetime
-
-def indexPage(request):
-    context = getBaseContext()
-    return render(request, 'index.html', context)
+from app.utils import getBaseContext
 
 @permission_required('article.view_comment', login_url='/login')
 @permission_required('article.view_category', login_url='/login')
@@ -65,23 +62,6 @@ def editArticle(request, pk=0):
         art.category = category
         art.save()
         return redirect('kb', pk=art.pk)
-
-def getBaseContext():
-    categories = Category.objects.all()
-    tags = Tag.objects.all()
-    menu = []
-    articles = Article.objects.all()
-    for category in categories:
-        category.items = []
-        for art in articles:
-            if category == art.category:
-                category.items.append(art)
-        menu.append(category)
-    tagform = TagForm(prefix='tag')
-    catform = CategoryForm(prefix='cat')
-    return {'tags': tags, 'categories': categories, 
-            'artmenu': menu}
-
 
 @permission_required('article.add_tag', login_url='/login')
 def addTag(request):
